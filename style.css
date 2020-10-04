@@ -1,0 +1,154 @@
+/* Initializing the box sizing for enitre page */
+*, *::before, *::after{
+    box-sizing: border-box;
+}
+/* Define the variables. cell-size for size of each cell. Max size for X and O`s which is slightly lesser(90%) than cell-size */
+:root{
+    --cell-size:100px;
+    --max-size: calc(var(--cell-size)*0.9);
+}
+/* Making margin as 0 to remove all spaces so that other styling elements works well */
+body{
+    margin:0;
+}
+/* Grid display is used and grid-template-columns of 3 repeat is used to make a grid of 3*3 */
+.board{
+    width:100vw;
+    height:100vh;
+    display:grid;
+    grid-template-columns: repeat(3,auto);
+    justify-content: center;
+    align-content: center;
+    justify-items: center;
+    align-items: center;
+}
+/* Cells uses the variables defined at root level */
+.cell{
+    width:var(--cell-size);
+    height:var(--cell-size);
+    border:1px solid black;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    cursor: pointer;
+}
+/* To remove the outside borders -- Start */
+.cell:first-child,
+.cell:nth-child(2),
+.cell:nth-child(3){
+    border-top:none;
+}
+.cell:nth-child(3n+1){
+    border-left:none;
+}
+.cell.cell:nth-child(3n+3){
+    border-right: none;
+}
+.cell:last-child,
+.cell:nth-child(8),
+.cell:nth-child(7){
+    border-bottom: none;
+}
+/* To remove the outside borders -- End */
+
+/* To display cursor type Not-allowed for x and circle class alone */
+.cell.x,
+.cell.circle{
+    cursor:not-allowed;
+}
+
+/* To create the X`s and O`s using pseudo elements before and after */
+/* Below set of code is for making X symbol -- start*/
+/* Setup hover effect of X`s in empty cell with light grey tone */
+/* use ":not()" function to omit the selected classes */
+.cell.x::before,
+.cell.x::after,
+.cell.circle::before,
+.cell.circle::after{
+    background-color: black;
+}
+.board.x .cell:not(.x):not(.circle):hover::before,
+.board.x .cell:not(.x):not(.circle):hover::after,
+.board.circle .cell:not(.x):not(.circle):hover::before,
+.board.circle .cell:not(.x):not(.circle):hover::after{
+    background-color: lightgrey;
+}
+.cell.x::before,
+.cell.x::after,
+.board.x .cell:not(.x):not(.circle):hover::before,
+.board.x .cell:not(.x):not(.circle):hover::after{
+    content:'';
+    position: absolute;
+    width:calc(var(--max-size)*0.15);
+    height:var(--max-size);
+}
+.cell.x::before,
+.board.x .cell:not(.x):not(.circle):hover::before{
+    transform:rotate(45deg);
+}
+.cell.x::after,
+.board.x .cell:not(.x):not(.circle):hover::after{
+    transform: rotate(-45deg);
+}
+/* Below set of code is for making X symbol -- end*/
+
+/* Below set of code is for making O symbol -- start*/
+/* Setup hover effect of X`s in empty cell with light grey tone */
+/* use ":not()" function to omit the selected classes */
+.cell.circle::before,
+.cell.circle::after,
+.board.circle .cell:not(.x):not(.circle):hover::before,
+.board.circle .cell:not(.x):not(.circle):hover::after
+{
+    content:'';
+    position: absolute;
+    border-radius: 50%;
+    }
+.cell.circle::before,
+.board.circle .cell:not(.x):not(.circle):hover::before{
+    width:var(--max-size);
+    height:var(--max-size);
+}
+.cell.circle::after,
+.board.circle .cell:not(.x):not(.circle):hover::after{
+    width:calc(var(--max-size)*0.7);
+    height:calc(var(--max-size)*0.7);
+    background-color:white;
+}
+/* Below set of code is for making O symbol -- end*/
+
+/* Setup the winning message styling . Note Button position is always fixed*/
+.winning-message{
+    position:fixed;
+    top:0;
+    bottom:0;
+    left:0;
+    right:0;
+    background-color: rgba(0,0,0,0.8);
+    display:none;
+    justify-content: center;
+    align-items: center;
+    color:white;
+    font-size: 5rem;
+    font-weight: bold;
+    flex-direction: column;
+}
+.winning-message button{
+    background-color: white;
+    border: 1px solid black;
+    padding: 0.25em 0.5em;
+    font-size: 3rem;
+    font-weight: bold;
+    border-radius: 5px;
+    cursor: pointer;
+}
+.winning-message button:hover{
+    background-color: black;
+    border: 1px solid white;
+    color:white;
+}
+.winning-message.show{
+    display:flex;
+}
+/* Setup the winning message styling. --Ends*/
